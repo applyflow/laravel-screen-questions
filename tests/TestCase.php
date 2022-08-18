@@ -72,4 +72,5 @@ class TestCase extends OrchestraTestCase
         $this->artisan('migrate:fresh');
         $this->runMigrationStub();
     }
+    
 }
