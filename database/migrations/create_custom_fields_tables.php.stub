@@ -23,6 +23,7 @@ class CreateCustomFieldsTables extends Migration
             $table->json('rules')->nullable();
             $table->string('group')->nullable();
             $table->string('title');
+            $table->string('slug');
             $table->string('description')->nullable();
             $table->string('default_value')->nullable();
             $table->string('order');

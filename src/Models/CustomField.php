@@ -78,6 +78,7 @@ class CustomField extends Model
     protected $fillable = [
         'type',
         'title',
+        'slug',
         'description',
         'options',
         'rules',
