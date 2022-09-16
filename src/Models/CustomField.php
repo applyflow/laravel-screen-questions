@@ -86,6 +86,7 @@ class CustomField extends Model
         'required',
         'default_value',
         'order',
+        'misc',
     ];
 
     /**
@@ -98,6 +99,7 @@ class CustomField extends Model
         'rules' => 'json',
         'archived_at' => 'datetime',
         'required' => 'boolean',
+        'misc' => 'json',
     ];
 
     /**
