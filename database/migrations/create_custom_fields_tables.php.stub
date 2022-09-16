@@ -26,6 +26,7 @@ class CreateCustomFieldsTables extends Migration
             $table->string('slug');
             $table->string('description')->nullable();
             $table->string('default_value')->nullable();
+            $table->json('misc')->nullable();
             $table->string('order');
             $table->timestamps();
             $table->timestamp('archived_at')->nullable();
