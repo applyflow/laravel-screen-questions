@@ -61,6 +61,16 @@ class CustomField extends Model
 
     const TYPE_URL = 'url';
 
+    const TYPE_DATE = 'date';
+
+    const TYPE_DATETIME = 'datetime';
+
+    const TYPE_MONTH = 'month';
+
+    const TYPE_WEEK = 'week';
+
+    const TYPE_TIME = 'time';
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -276,6 +286,10 @@ class CustomField extends Model
 
             self::TYPE_URL => [
                 'string'
+            ],
+
+            self::TYPE_DATE => [
+                'date'
             ],
         ];
     }

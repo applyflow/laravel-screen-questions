@@ -46,6 +46,11 @@ class CustomFieldResponse extends Model
         CustomField::TYPE_EMAIL => 'value_str',
         CustomField::TYPE_FILE => 'value_str',
         CustomField::TYPE_URL => 'value_str',
+        CustomField::TYPE_DATE => 'value_str',
+        CustomField::TYPE_DATETIME => 'value_str',
+        CustomField::TYPE_MONTH => 'value_str',
+        CustomField::TYPE_WEEK => 'value_str',
+        CustomField::TYPE_TIME => 'value_str',
     ];
 
     /**
