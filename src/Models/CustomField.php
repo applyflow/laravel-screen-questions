@@ -52,6 +52,8 @@ class CustomField extends Model
      */
     const TYPE_EMAIL = 'email';
 
+    const TYPE_PASSWORD = 'password';
+    
     /**
      * @var string
      */
@@ -277,6 +279,10 @@ class CustomField extends Model
             ],
 
             self::TYPE_PHONE => [
+                'string'
+            ],
+
+            self::TYPE_PASSWORD => [
                 'string'
             ],
 

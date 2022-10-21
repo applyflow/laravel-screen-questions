@@ -44,6 +44,7 @@ class CustomFieldResponse extends Model
         CustomField::TYPE_TEXTAREA => 'value_text',
         CustomField::TYPE_PHONE => 'value_str',
         CustomField::TYPE_EMAIL => 'value_str',
+        CustomField::TYPE_PASSWORD => 'value_str',
         CustomField::TYPE_FILE => 'value_str',
         CustomField::TYPE_URL => 'value_str',
         CustomField::TYPE_DATE => 'value_str',
