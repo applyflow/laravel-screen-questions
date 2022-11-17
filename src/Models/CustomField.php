@@ -61,6 +61,8 @@ class CustomField extends Model
 
     const TYPE_FILE = 'file';
 
+    const TYPE_IMAGE = 'image';
+
     const TYPE_URL = 'url';
 
     const TYPE_DATE = 'date';
@@ -287,6 +289,10 @@ class CustomField extends Model
             ],
 
             self::TYPE_FILE => [
+                'uuid'
+            ],
+
+            self::TYPE_IMAGE => [
                 'uuid'
             ],
 
