@@ -1,12 +1,12 @@
 <?php
 
-namespace Givebutter\Tests\Feature;
+namespace Applyflow\Tests\Feature;
 
-use Givebutter\LaravelCustomFields\Exceptions\FieldDoesNotBelongToModelException;
-use Givebutter\LaravelCustomFields\Exceptions\WrongNumberOfFieldsForOrderingException;
-use Givebutter\LaravelCustomFields\Models\CustomField;
-use Givebutter\Tests\Support\Survey;
-use Givebutter\Tests\TestCase;
+use Applyflow\LaravelScreenQuestions\Exceptions\FieldDoesNotBelongToModelException;
+use Applyflow\LaravelScreenQuestions\Exceptions\WrongNumberOfFieldsForOrderingException;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestion;
+use Applyflow\Tests\Support\Survey;
+use Applyflow\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderingTest extends TestCase
@@ -18,11 +18,11 @@ class OrderingTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->saveMany([
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'email',
                 'type' => 'text',
             ]),
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'phone',
                 'type' => 'text',
             ]),
@@ -37,11 +37,11 @@ class OrderingTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->saveMany([
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'email',
                 'type' => 'text',
             ]),
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'phone',
                 'type' => 'text',
             ]),
@@ -58,11 +58,11 @@ class OrderingTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->saveMany([
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'email',
                 'type' => 'text',
             ]),
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'phone',
                 'type' => 'text',
             ]),
@@ -79,11 +79,11 @@ class OrderingTest extends TestCase
     {
         $survey1 = Survey::create();
         $survey1->customfields()->saveMany([
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'email',
                 'type' => 'text',
             ]),
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'phone',
                 'type' => 'text',
             ]),
@@ -91,18 +91,18 @@ class OrderingTest extends TestCase
 
         $survey2 = Survey::create();
         $survey2->customfields()->saveMany([
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'fax',
                 'type' => 'text',
             ]),
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'telegraph',
                 'type' => 'text',
             ]),
         ]);
 
         $this->expectException(FieldDoesNotBelongToModelException::class);
-        $this->expectExceptionMessage('Field 1 does not belong to Givebutter\Tests\Support\Survey with id 2');
+        $this->expectExceptionMessage('Field 1 does not belong to Applyflow\Tests\Support\Survey with id 2');
 
         $survey2->order([1, 2]);
     }

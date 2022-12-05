@@ -1,6 +1,6 @@
 {
-    "name": "applyflow/custom-fields",
-    "description": "Laravel Custom Fields is a package that allows you to add custom fields to any Laravel model and store responses to those fields on any Laravel model.",
+    "name": "applyflow/screen-questions",
+    "description": "Laravel Screen Questions is a package that allows you to add custom fields to any Laravel model and store responses to those fields on any Laravel model.",
     "keywords": [
         "custom fields",
         "laravel"
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Givebutter\\LaravelCustomFields\\": "src/"
+            "Applyflow\\LaravelScreenQuestions\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Givebutter\\Tests\\": "tests/",
+            "Applyflow\\Tests\\": "tests/",
             "Database\\": "database/"
         }
     },
@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Givebutter\\LaravelCustomFields\\LaravelCustomFieldsServiceProvider"
+                "Applyflow\\LaravelScreenQuestions\\LaravelScreenQuestionsServiceProvider"
             ]
         }
     }

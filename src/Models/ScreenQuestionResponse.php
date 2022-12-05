@@ -1,11 +1,11 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Models;
+namespace Applyflow\LaravelScreenQuestions\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CustomFieldResponse extends Model
+class ScreenQuestionResponse extends Model
 {
     /**
      * The attributes that aren't mass assignable.
@@ -35,28 +35,28 @@ class CustomFieldResponse extends Model
      * @var string[]
      */
     const VALUE_FIELDS = [
-        CustomField::TYPE_TEXT => 'value_str',
-        CustomField::TYPE_RADIO => 'value_str',
-        CustomField::TYPE_SELECT => 'value_str',
-        CustomField::TYPE_MULTISELECT => 'value_str',
-        CustomField::TYPE_NUMBER => 'value_int',
-        CustomField::TYPE_CHECKBOX => 'value_int',
-        CustomField::TYPE_TEXTAREA => 'value_text',
-        CustomField::TYPE_PHONE => 'value_str',
-        CustomField::TYPE_EMAIL => 'value_str',
-        CustomField::TYPE_PASSWORD => 'value_str',
-        CustomField::TYPE_FILE => 'value_str',
-        CustomField::TYPE_IMAGE => 'value_str',
-        CustomField::TYPE_URL => 'value_str',
-        CustomField::TYPE_DATE => 'value_str',
-        CustomField::TYPE_DATETIME => 'value_str',
-        CustomField::TYPE_MONTH => 'value_str',
-        CustomField::TYPE_WEEK => 'value_str',
-        CustomField::TYPE_TIME => 'value_str',
+        ScreenQuestion::TYPE_TEXT => 'value_str',
+        ScreenQuestion::TYPE_RADIO => 'value_str',
+        ScreenQuestion::TYPE_SELECT => 'value_str',
+        ScreenQuestion::TYPE_MULTISELECT => 'value_str',
+        ScreenQuestion::TYPE_NUMBER => 'value_int',
+        ScreenQuestion::TYPE_CHECKBOX => 'value_int',
+        ScreenQuestion::TYPE_TEXTAREA => 'value_text',
+        ScreenQuestion::TYPE_PHONE => 'value_str',
+        ScreenQuestion::TYPE_EMAIL => 'value_str',
+        ScreenQuestion::TYPE_PASSWORD => 'value_str',
+        ScreenQuestion::TYPE_FILE => 'value_str',
+        ScreenQuestion::TYPE_IMAGE => 'value_str',
+        ScreenQuestion::TYPE_URL => 'value_str',
+        ScreenQuestion::TYPE_DATE => 'value_str',
+        ScreenQuestion::TYPE_DATETIME => 'value_str',
+        ScreenQuestion::TYPE_MONTH => 'value_str',
+        ScreenQuestion::TYPE_WEEK => 'value_str',
+        ScreenQuestion::TYPE_TIME => 'value_str',
     ];
 
     /**
-     * CustomFieldResponse constructor.
+     * ScreenQuestionResponse constructor.
      *
      * @param array $attributes
      */
@@ -64,8 +64,8 @@ class CustomFieldResponse extends Model
     {
         /*
          * We have to do this because the `value` mutator
-         * depends on `field_id` being set. If `value`
-         * is declared earlier than `field_id` in a
+         * depends on `question_id` being set. If `value`
+         * is declared earlier than `question_id` in a
          * create() array, the mutator will fail.
          */
 
@@ -76,7 +76,7 @@ class CustomFieldResponse extends Model
         $this->syncOriginal();
         $this->fill($attributes);
 
-        $this->table = config('custom-fields.tables.field-responses', 'custom_field_responses');
+        $this->table = config('screen-questions.tables.field-responses', 'custom_field_responses');
     }
 
     /**
@@ -96,7 +96,7 @@ class CustomFieldResponse extends Model
      */
     public function field()
     {
-        return $this->belongsTo(CustomField::class, 'field_id');
+        return $this->belongsTo(ScreenQuestion::class, 'question_id');
     }
 
     /**
@@ -175,14 +175,14 @@ class CustomFieldResponse extends Model
         return self::VALUE_FIELDS[$this->field->type];
     }
 
-    public static function formatCustomFieldResponse(ResourceCollection $responses)
+    public static function formatScreenQuestionResponse(ResourceCollection $responses)
     {
-        return $responses->groupBy('field_id')->map(function ($item, $key) {
+        return $responses->groupBy('question_id')->map(function ($item, $key) {
             $first_item = $item[0];
             $values = $item->pluck('value');
 
             if ($values) {
-                if ($first_item->field->type == CustomField::TYPE_MULTISELECT) {
+                if ($first_item->field->type == ScreenQuestion::TYPE_MULTISELECT) {
                     $first_item->value = $values;
                 } else {
                     $first_item->value = $values[0];

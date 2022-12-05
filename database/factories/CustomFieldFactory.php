@@ -4,17 +4,17 @@ namespace Database\Factories;
 
 use Exception;
 use Faker\Provider\Lorem;
-use Givebutter\LaravelCustomFields\Models\CustomField;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CustomFieldFactory extends Factory
+class ScreenQuestionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = CustomField::class;
+    protected $model = ScreenQuestion::class;
 
     /**
      * Define the model's default state.
@@ -24,12 +24,12 @@ class CustomFieldFactory extends Factory
     public function definition()
     {
         $typesRequireAnswers = [
-            CustomField::TYPE_TEXT => false,
-            CustomField::TYPE_RADIO => true,
-            CustomField::TYPE_SELECT => true,
-            CustomField::TYPE_NUMBER => false,
-            CustomField::TYPE_CHECKBOX => false,
-            CustomField::TYPE_TEXTAREA => false,
+            ScreenQuestion::TYPE_TEXT => false,
+            ScreenQuestion::TYPE_RADIO => true,
+            ScreenQuestion::TYPE_SELECT => true,
+            ScreenQuestion::TYPE_NUMBER => false,
+            ScreenQuestion::TYPE_CHECKBOX => false,
+            ScreenQuestion::TYPE_TEXTAREA => false,
         ];
 
         $type = array_keys($typesRequireAnswers)[rand(0, count($typesRequireAnswers) - 1)]; // Pick a random type
@@ -48,7 +48,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeCheckbox()
     {
-        $this->model->type = CustomField::TYPE_CHECKBOX;
+        $this->model->type = ScreenQuestion::TYPE_CHECKBOX;
 
         return $this;
     }
@@ -58,7 +58,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeNumber()
     {
-        $this->model->type = CustomField::TYPE_NUMBER;
+        $this->model->type = ScreenQuestion::TYPE_NUMBER;
 
         return $this;
     }
@@ -70,7 +70,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeRadio($answerCount = 3)
     {
-        $this->model->type = CustomField::TYPE_RADIO;
+        $this->model->type = ScreenQuestion::TYPE_RADIO;
 
         return $this->withAnswers($answerCount);
     }
@@ -82,7 +82,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeSelect($optionCount = 3)
     {
-        $this->model->type = CustomField::TYPE_SELECT;
+        $this->model->type = ScreenQuestion::TYPE_SELECT;
 
         return $this->withAnswers($optionCount);
     }
@@ -92,7 +92,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeText()
     {
-        $this->model->type = CustomField::TYPE_TEXT;
+        $this->model->type = ScreenQuestion::TYPE_TEXT;
 
         return $this;
     }
@@ -102,7 +102,7 @@ class CustomFieldFactory extends Factory
      */
     public function withTypeTextArea()
     {
-        $this->model->type = CustomField::TYPE_TEXTAREA;
+        $this->model->type = ScreenQuestion::TYPE_TEXTAREA;
 
         return $this;
     }

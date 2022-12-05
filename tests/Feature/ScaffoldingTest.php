@@ -1,8 +1,8 @@
 <?php
 
-namespace Givebutter\Tests\Feature;
+namespace Applyflow\Tests\Feature;
 
-use Givebutter\Tests\TestCase;
+use Applyflow\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 

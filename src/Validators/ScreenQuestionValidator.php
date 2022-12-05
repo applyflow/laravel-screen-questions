@@ -1,12 +1,12 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Validators;
+namespace Applyflow\LaravelScreenQuestions\Validators;
 
-use Givebutter\LaravelCustomFields\Models\CustomField;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestion;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-class CustomFieldValidator extends Validator
+class ScreenQuestionValidator extends Validator
 {
     /**
      * Create a new Validator instance.
@@ -33,7 +33,7 @@ class CustomFieldValidator extends Validator
     protected function replaceAttributePlaceholder($message, $value)
     {
         $fieldId = (int) Str::after($value, 'field ');
-        $fieldTitle = CustomField::find($fieldId)->title;
+        $fieldTitle = ScreenQuestion::find($fieldId)->title;
         $replacementString = "`{$fieldTitle}` field";
 
         return str_replace(

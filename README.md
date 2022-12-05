@@ -16,7 +16,7 @@ composer require givebutter/laravel-custom-fields
 
 Publish the migration:
 ```bash
-php artisan vendor:publish --provider="Givebutter\LaravelCustomFields\LaravelCustomFieldsServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Applyflow\LaravelScreenQuestions\LaravelScreenQuestionsServiceProvider" --tag="migrations"
 ```
 
 Run the migration:
@@ -33,15 +33,15 @@ For the purposes of the documentation, lets use the example of a Survey building
 
 ### Adding custom fields
 
-To add basic custom field support, simply add the `HasCustomFields` trait at the top of your model:
+To add basic custom field support, simply add the `HasScreenQuestions` trait at the top of your model:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Givebutter\LaravelCustomFields\Traits\HasCustomFields;
+use Applyflow\LaravelScreenQuestions\Traits\HasScreenQuestions;
 
 class Survey extends Model
 {
-    use HasCustomFields;
+    use HasScreenQuestions;
 
     // ...
 }
@@ -49,15 +49,15 @@ class Survey extends Model
 
 ### Adding custom field responses
 
-Next, we add support to store custom field responses. We'll simply pull in the `HasCustomFieldResponses` trait at the top of our `SurveyResponse` model.
+Next, we add support to store custom field responses. We'll simply pull in the `HasScreenQuestionResponses` trait at the top of our `SurveyResponse` model.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Givebutter\LaravelCustomFields\Traits\HasCustomFieldResponses;
+use Applyflow\LaravelScreenQuestions\Traits\HasScreenQuestionResponses;
 
 class SurveyResponse extends Model
 {
-    use HasCustomFieldResponses;
+    use HasScreenQuestionResponses;
 
     // ...
 }
@@ -70,7 +70,7 @@ class SurveyResponse extends Model
 You can add a field to a model like this:
 
 ```php
-$survey->customFields()->create([
+$survey->screenQuestions()->create([
     'title' => 'What is your name?',
     'type' => 'text'
 ]);
@@ -96,10 +96,10 @@ $field->responses()->create([
 
 ### Retrieving fields
 
-To retrieve custom fields, use the `customFields` relation:
+To retrieve custom fields, use the `screenQuestions` relation:
 
 ```php
-$survey->customFields()->get();
+$survey->screenQuestions()->get();
 ```
 
 ### Retrieving field responses
@@ -124,7 +124,7 @@ In general, these field types correspond to their respective HTML elements. In t
 *The `radio` and `select` field types require you to fill the `options` property on the field. This is a simple array of strings, which are valid responses for the field. For example:
 
  ```php
- $survey->customFields()->create([
+ $survey->screenQuestions()->create([
     'title' => 'What is your favorite color?',
     'type' => 'select',
     'answers' => ['Red', 'Green', 'Blue', 'Yellow'], 
@@ -136,7 +136,7 @@ In general, these field types correspond to their respective HTML elements. In t
 
 ### Validation helpers
 
-In most cases, you'll want to validate responses to your custom fields before saving them. You can do so by calling the `validateCustomFields()` function on your model:
+In most cases, you'll want to validate responses to your custom fields before saving them. You can do so by calling the `validateScreenQuestions()` function on your model:
 
 ```php
 
@@ -144,7 +144,7 @@ $responses = [
     '1' => "John Doe",
     '2' => "Blue"
 ];
-$survey->validateCustomFields($responses);
+$survey->validateScreenQuestions($responses);
 ```
 
 You can also pass in a `Request` object:
@@ -156,7 +156,7 @@ class FooController extends Controller {
 
     public function index(Request $request) 
     {
-        $validation = $survey->validateCustomFields($request);
+        $validation = $survey->validateScreenQuestions($request);
 
         // ...
     }
@@ -190,7 +190,7 @@ The 5 supported field types described above automatically have the following val
 Because of how common they are, required fields have native support in this package. To mark a field as required, simply set `required` to true when creating a custom field.
 
 ```php
-$survey->customFields()->create([
+$survey->screenQuestions()->create([
     'title' => 'Do you love Laravel?',
     'type' => 'radio',
     'options' => ['Yes', 'YES'],
@@ -203,7 +203,7 @@ $survey->customFields()->create([
 Along with the built in validation rules, you can apply your own rules to the any custom field. For example, if you wanted to validate a field was an integer between 1 and 10, you could do the following:
 
 ```php
-$survey->customFields()->create([
+$survey->screenQuestions()->create([
     'title' => 'Pick a number 1-10',
     'type' => 'text',
     'validation_rules' => 'integer|min:1|max:10'
@@ -219,12 +219,12 @@ In some cases, it's easier and more practical to define validation rules sets. F
 
 ## Saving Responses
 
-To store responses to custom fields, just call `saveCustomFields()` and pass in an array of values
+To store responses to custom fields, just call `saveScreenQuestions()` and pass in an array of values
 
-The `saveCustomFields` function can take in a Request or array.
+The `saveScreenQuestions` function can take in a Request or array.
 
 ```php
-$surveyResponse->saveCustomFields(['
+$surveyResponse->saveScreenQuestions(['
    
 ']);
 ```
@@ -233,12 +233,12 @@ If you're submitting a form request, you can easily:
 
 ```php
 Use App\...
-$surveyResponse->saveCustomFields($request->input);
+$surveyResponse->saveScreenQuestions($request->input);
 ```
 
 ## Querying responses
 
-You can query for responses on any field by using the `WhereCustomField()` scope. The function takes in the field object and the value you're looking for. To learn more about query scopes visit [this link](https://laravel.com/docs/6.x/eloquent#query-scopes).
+You can query for responses on any field by using the `WhereScreenQuestion()` scope. The function takes in the field object and the value you're looking for. To learn more about query scopes visit [this link](https://laravel.com/docs/6.x/eloquent#query-scopes).
 
 For example, if you wanted to find all `SurveyResponses` with a `large` T-shirt size, perform the following query:
 
@@ -248,7 +248,7 @@ Use App\Models\SurveyResponse;
 
 $field = 
 
-SurveyResponse::WhereCustomField($field, 'large')->get();
+SurveyResponse::WhereScreenQuestion($field, 'large')->get();
 ```
 
 ## Ordering
@@ -256,7 +256,7 @@ SurveyResponse::WhereCustomField($field, 'large')->get();
 You can change the order of custom fields on a model by using the `order` function. Pass in either an array or `Collection` of ids. The index position of the field represent the order position of it. 
 
 ```php
-$survey->orderCustomFields([2, 4, 5]); // Field with id 2 will be ordered first.
+$survey->orderScreenQuestions([2, 4, 5]); // Field with id 2 will be ordered first.
 ```
 
 You can also manually change the value of the `order` column:
@@ -268,14 +268,14 @@ $field->save();
 
 By default, custom fields are returned in ascending order when retrieved via the relation:
 ```php
-$survey->customFields()->get(); // Returned in ascending order.
+$survey->screenQuestions()->get(); // Returned in ascending order.
 ```
 
 ## Configuration
 
 To publish the configuration file, run the following command:
 ```bash
-php artisan vendor:publish --provider="Givebutter\LaravelCustomFields\LaravelCustomFieldsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Applyflow\LaravelScreenQuestions\LaravelScreenQuestionsServiceProvider" --tag="config"
 ```
 
 The configuration file should now be published in `config/custom-fields.php`. The available options and their usage are explained inside the published file.

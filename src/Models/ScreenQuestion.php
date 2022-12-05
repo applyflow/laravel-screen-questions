@@ -1,14 +1,14 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Models;
+namespace Applyflow\LaravelScreenQuestions\Models;
 
 use Carbon\Carbon;
-use Givebutter\LaravelCustomFields\Traits\Archives;
+use Applyflow\LaravelScreenQuestions\Traits\Archives;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
-class CustomField extends Model
+class ScreenQuestion extends Model
 {
     use HasFactory, Archives;
 
@@ -117,7 +117,7 @@ class CustomField extends Model
     ];
 
     /**
-     * CustomField constructor.
+     * ScreenQuestion constructor.
      *
      * @param array $attributes
      */
@@ -125,7 +125,7 @@ class CustomField extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('custom-fields.tables.fields', 'custom_fields');
+        $this->table = config('screen-questions.tables.fields', 'custom_fields');
     }
 
     /**
@@ -138,7 +138,7 @@ class CustomField extends Model
         parent::boot();
 
         self::creating(function ($field) {
-            $lastFieldOnCurrentModel = $field->model->morphMany(CustomField::class, 'model')->where('group', $field->group)->orderByDesc('order')->first();
+            $lastFieldOnCurrentModel = $field->model->morphMany(ScreenQuestion::class, 'model')->where('group', $field->group)->orderByDesc('order')->first();
             $field->order = ($lastFieldOnCurrentModel ? $lastFieldOnCurrentModel->order : 0) + 1;
         });
     }
@@ -160,7 +160,7 @@ class CustomField extends Model
      */
     public function responses()
     {
-        return $this->hasMany(CustomFieldResponse::class, 'field_id');
+        return $this->hasMany(ScreenQuestionResponse::class, 'question_id');
     }
 
     /**

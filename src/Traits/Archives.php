@@ -1,6 +1,6 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Traits;
+namespace Applyflow\LaravelScreenQuestions\Traits;
 
 trait Archives
 {

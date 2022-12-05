@@ -1,20 +1,20 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Traits;
+namespace Applyflow\LaravelScreenQuestions\Traits;
 
-use Givebutter\LaravelCustomFields\Models\CustomField;
-use Givebutter\LaravelCustomFields\Models\CustomFieldResponse;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestion;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestionResponse;
 
-trait HasCustomFieldResponses
+trait HasScreenQuestionResponses
 {
     /**
      * Get the custom field responses for the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function customFieldResponses()
+    public function screenQuestionResponses()
     {
-        return $this->morphMany(CustomFieldResponse::class, 'model');
+        return $this->morphMany(ScreenQuestionResponse::class, 'model');
     }
 
     /**
@@ -22,38 +22,38 @@ trait HasCustomFieldResponses
      *
      * @param $fields
      */
-    public function saveCustomFields($fields)
+    public function saveScreenQuestions($fields)
     {
         foreach ($fields as $key => $value) {
-            $customField = CustomField::find((int) $key);
+            $screenQuestion = ScreenQuestion::find((int) $key);
 
-            if (!$customField) {
+            if (!$screenQuestion) {
                 continue;
             }
 
-            if ($customField->type == CustomField::TYPE_MULTISELECT) {
-                CustomFieldResponse::where(
+            if ($screenQuestion->type == ScreenQuestion::TYPE_MULTISELECT) {
+                ScreenQuestionResponse::where(
                     [
                         'model_id' => $this->id,
-                        'field_id' => $customField->id,
+                        'question_id' => $screenQuestion->id,
                         'model_type' => $this->getMorphClass(),
                     ]
                 )->delete();
 
                 if (is_array($value)) {
                     foreach ($value as $ele) {
-                        CustomFieldResponse::create([
+                        ScreenQuestionResponse::create([
                             'value' => $ele,
                             'model_id' => $this->id,
-                            'field_id' => $customField->id,
+                            'question_id' => $screenQuestion->id,
                             'model_type' => $this->getMorphClass(),
                         ]);
                     }
                 }
             } else {
-                CustomFieldResponse::updateOrCreate([
+                ScreenQuestionResponse::updateOrCreate([
                     'model_id' => $this->id,
-                    'field_id' => $customField->id,
+                    'question_id' => $screenQuestion->id,
                     'model_type' => $this->getMorphClass(),
                 ], ['value' => $value,]);
             }
@@ -64,14 +64,14 @@ trait HasCustomFieldResponses
      * Add a scope to return only models which match the given field and value.
      *
      * @param $query
-     * @param CustomField $field
+     * @param ScreenQuestion $field
      * @param $value
      */
-    public function scopeWhereField($query, CustomField $field, $value)
+    public function scopeWhereField($query, ScreenQuestion $field, $value)
     {
-        $query->whereHas('customFieldResponses', function ($query) use ($field, $value) {
+        $query->whereHas('screenQuestionResponses', function ($query) use ($field, $value) {
             $query
-                ->where('field_id', $field->id)
+                ->where('question_id', $field->id)
                 ->where(function ($subQuery) use ($value) {
                     $subQuery->hasValue($value);
                 });

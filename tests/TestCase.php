@@ -1,8 +1,8 @@
 <?php
 
-namespace Givebutter\Tests;
+namespace Applyflow\Tests;
 
-use Givebutter\LaravelCustomFields\LaravelCustomFieldsServiceProvider;
+use Applyflow\LaravelScreenQuestions\LaravelScreenQuestionsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Str;
@@ -29,7 +29,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            LaravelCustomFieldsServiceProvider::class,
+            LaravelScreenQuestionsServiceProvider::class,
         ];
     }
 
@@ -51,17 +51,17 @@ class TestCase extends OrchestraTestCase
             $table->timestamps();
         });
 
-        $this->prepareDatabaseForHasCustomFieldsModel();
+        $this->prepareDatabaseForHasScreenQuestionsModel();
         $this->runMigrationStub();
     }
 
     protected function runMigrationStub()
     {
         include_once __DIR__ . '/../database/migrations/create_custom_fields_tables.php.stub';
-        (new \CreateCustomFieldsTables())->up();
+        (new \CreateScreenQuestionsTables())->up();
     }
 
-    protected function prepareDatabaseForHasCustomFieldsModel()
+    protected function prepareDatabaseForHasScreenQuestionsModel()
     {
         include_once __DIR__ . '/../tests/support/migrations/create_surveys_and_survey_responses_tables.php';
         (new \CreateSurveysAndSurveyResponsesTables())->up();

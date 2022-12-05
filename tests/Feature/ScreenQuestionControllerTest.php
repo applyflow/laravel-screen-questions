@@ -1,16 +1,16 @@
 <?php
 
-namespace Givebutter\Tests\Feature;
+namespace Applyflow\Tests\Feature;
 
-use Givebutter\LaravelCustomFields\Models\CustomField;
-use Givebutter\Tests\Support\Survey;
-use Givebutter\Tests\Support\SurveyResponse;
-use Givebutter\Tests\TestCase;
+use Applyflow\LaravelScreenQuestions\Models\ScreenQuestion;
+use Applyflow\Tests\Support\Survey;
+use Applyflow\Tests\Support\SurveyResponse;
+use Applyflow\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-class CustomFieldControllerTest extends TestCase
+class ScreenQuestionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,14 +19,14 @@ class CustomFieldControllerTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->save(
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'email',
                 'type' => 'text',
             ])
         );
 
         Route::post("/surveys/{$survey->id}/responses", function (Request $request) use ($survey) {
-            $survey->validateCustomFields($request);
+            $survey->validateScreenQuestions($request);
 
             return response('All good', 200);
         });
@@ -45,7 +45,7 @@ class CustomFieldControllerTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->save(
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'favorite_album',
                 'type' => 'select',
                 'options' => ['Tha Carter', 'Tha Carter II', 'Tha Carter III'],
@@ -53,7 +53,7 @@ class CustomFieldControllerTest extends TestCase
         );
 
         Route::post("/surveys/{$survey->id}/responses", function (Request $request) use ($survey) {
-            $validator = $survey->validateCustomFields($request->custom_fields);
+            $validator = $survey->validateScreenQuestions($request->custom_fields);
 
             if ($validator->fails()) {
                 return ['errors' => $validator->errors()];
@@ -62,7 +62,7 @@ class CustomFieldControllerTest extends TestCase
             return response('All good', 200);
         });
 
-        $fieldId = CustomField::where('title', 'favorite_album')->first()->id;
+        $fieldId = ScreenQuestion::where('title', 'favorite_album')->first()->id;
 
         $this
             ->post("/surveys/{$survey->id}/responses", [
@@ -77,7 +77,7 @@ class CustomFieldControllerTest extends TestCase
     {
         $survey = Survey::create();
         $survey->customfields()->save(
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'favorite_album',
                 'type' => 'select',
                 'options' => ['Tha Carter', 'Tha Carter II', 'Tha Carter III'],
@@ -86,7 +86,7 @@ class CustomFieldControllerTest extends TestCase
         );
 
         Route::post("/surveys/{$survey->id}/responses", function (Request $request) use ($survey) {
-            $validator = $survey->validateCustomFields($request);
+            $validator = $survey->validateScreenQuestions($request);
 
             if ($validator->fails()) {
                 return ['errors' => $validator->errors()];
@@ -95,7 +95,7 @@ class CustomFieldControllerTest extends TestCase
             return response('All good', 200);
         });
 
-        $fieldId = CustomField::where('title', 'favorite_album')->first()->id;
+        $fieldId = ScreenQuestion::where('title', 'favorite_album')->first()->id;
 
         $this
             ->post("/surveys/{$survey->id}/responses", [
@@ -111,14 +111,14 @@ class CustomFieldControllerTest extends TestCase
         $survey = Survey::create();
         $surveyResponse = SurveyResponse::create();
         $survey->customfields()->save(
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'favorite_album',
                 'type' => 'checkbox',
             ])
         );
 
         Route::post("/surveys/{$survey->id}/responses", function (Request $request) use ($survey, $surveyResponse) {
-            $validator = $survey->validateCustomFields($request);
+            $validator = $survey->validateScreenQuestions($request);
 
             if ($validator->fails()) {
                 return ['errors' => $validator->errors()];
@@ -129,7 +129,7 @@ class CustomFieldControllerTest extends TestCase
             return response('All good', 200);
         });
 
-        $fieldId = CustomField::where('title', 'favorite_album')->first()->id;
+        $fieldId = ScreenQuestion::where('title', 'favorite_album')->first()->id;
 
         $this
             ->post("/surveys/{$survey->id}/responses", [
@@ -138,7 +138,7 @@ class CustomFieldControllerTest extends TestCase
                 ],
             ])->assertSee('All good');
 
-        $this->assertTrue($surveyResponse->customFieldResponses()->first()->value);
+        $this->assertTrue($surveyResponse->screenQuestionResponses()->first()->value);
     }
 
     /** @test */
@@ -147,7 +147,7 @@ class CustomFieldControllerTest extends TestCase
         $survey = Survey::create();
         $surveyResponse = SurveyResponse::create();
         $survey->customfields()->save(
-            CustomField::factory()->make([
+            ScreenQuestion::factory()->make([
                 'title' => 'favorite_album',
                 'type' => 'select',
                 'options' => ['Tha Carter', 'Tha Carter II', 'Tha Carter III'],
@@ -160,7 +160,7 @@ class CustomFieldControllerTest extends TestCase
             return response('All good', 200);
         });
 
-        $fieldId = CustomField::where('title', 'favorite_album')->first()->id;
+        $fieldId = ScreenQuestion::where('title', 'favorite_album')->first()->id;
 
         $this
             ->post("/surveys/{$survey->id}/responses", [
@@ -169,6 +169,6 @@ class CustomFieldControllerTest extends TestCase
                 ],
             ])->assertOk();
 
-        $this->assertCount(1, $surveyResponse->customFieldResponses);
+        $this->assertCount(1, $surveyResponse->screenQuestionResponses);
     }
 }

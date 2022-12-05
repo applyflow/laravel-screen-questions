@@ -1,6 +1,6 @@
 <?php
 
-namespace Givebutter\LaravelCustomFields\Exceptions;
+namespace Applyflow\LaravelScreenQuestions\Exceptions;
 
 use Exception;
 

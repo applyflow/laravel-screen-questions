@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFieldsTables extends Migration
+class CreateScreenQuestionsTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCustomFieldsTables extends Migration
      */
     public function up()
     {
-        Schema::create(config('custom-fields.tables.fields', 'custom_fields'), function (Blueprint $table) {
+        Schema::create(config('screen-questions.tables.fields', 'custom_fields'), function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('model_id');
             $table->string('model_type');
@@ -32,10 +32,10 @@ class CreateCustomFieldsTables extends Migration
             $table->timestamp('archived_at')->nullable();
         });
 
-        Schema::create(config('custom-fields.tables.field-responses', 'custom_field_responses'), function (Blueprint $table) {
+        Schema::create(config('screen-questions.tables.field-responses', 'custom_field_responses'), function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('field_id');
-            $table->foreign('field_id')->references('id')->on(config('custom-fields.tables.fields', 'custom_fields'));
+            $table->unsignedInteger('question_id');
+            $table->foreign('question_id')->references('id')->on(config('screen-questions.tables.fields', 'custom_fields'));
             $table->unsignedInteger('model_id');
             $table->string('model_type');
             $table->string('value_str')->nullable();
@@ -52,8 +52,8 @@ class CreateCustomFieldsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('custom-fields.tables.fields', 'custom_fields'));
-        Schema::dropIfExists(config('custom-fields.tables.field-responses', 'custom_field_responses'));
+        Schema::dropIfExists(config('screen-questions.tables.fields', 'custom_fields'));
+        Schema::dropIfExists(config('screen-questions.tables.field-responses', 'custom_field_responses'));
     }
 
 }
