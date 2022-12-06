@@ -53,7 +53,7 @@ class ScreenQuestion extends Model
     const TYPE_EMAIL = 'email';
 
     const TYPE_PASSWORD = 'password';
-    
+
     /**
      * @var string
      */
@@ -99,7 +99,6 @@ class ScreenQuestion extends Model
         'group',
         'required',
         'default_value',
-        'order',
         'misc',
     ];
 
@@ -136,11 +135,6 @@ class ScreenQuestion extends Model
     protected static function boot()
     {
         parent::boot();
-
-        self::creating(function ($field) {
-            $lastFieldOnCurrentModel = $field->model->morphMany(ScreenQuestion::class, 'model')->where('group', $field->group)->orderByDesc('order')->first();
-            $field->order = ($lastFieldOnCurrentModel ? $lastFieldOnCurrentModel->order : 0) + 1;
-        });
     }
 
     /**

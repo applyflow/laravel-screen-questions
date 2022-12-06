@@ -59,22 +59,4 @@ trait HasScreenQuestionResponses
             }
         }
     }
-
-    /**
-     * Add a scope to return only models which match the given field and value.
-     *
-     * @param $query
-     * @param ScreenQuestion $field
-     * @param $value
-     */
-    public function scopeWhereField($query, ScreenQuestion $field, $value)
-    {
-        $query->whereHas('screenQuestionResponses', function ($query) use ($field, $value) {
-            $query
-                ->where('question_id', $field->id)
-                ->where(function ($subQuery) use ($value) {
-                    $subQuery->hasValue($value);
-                });
-        });
-    }
 }

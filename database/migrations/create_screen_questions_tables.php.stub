@@ -27,7 +27,6 @@ class CreateScreenQuestionsTables extends Migration
             $table->string('description')->nullable();
             $table->string('default_value')->nullable();
             $table->json('misc')->nullable();
-            $table->string('order');
             $table->timestamps();
             $table->timestamp('archived_at')->nullable();
         });
@@ -36,11 +35,13 @@ class CreateScreenQuestionsTables extends Migration
             $table->increments('id');
             $table->unsignedInteger('question_id');
             $table->foreign('question_id')->references('id')->on(config('screen-questions.tables.fields', 'custom_fields'));
+            $table->uuid('job_uuid');
             $table->unsignedInteger('model_id');
             $table->string('model_type');
             $table->string('value_str')->nullable();
             $table->text('value_text')->nullable();
             $table->integer('value_int')->nullable();
+            $table->string('order');
             $table->timestamps();
         });
     }

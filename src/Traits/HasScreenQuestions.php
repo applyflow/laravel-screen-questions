@@ -18,13 +18,13 @@ trait HasScreenQuestions
      */
     public function screenQuestions($group = null)
     {
-        $rel = $this->morphMany(ScreenQuestion::class, 'model')->where('group', $group)->orderBy('order');
+        $rel = $this->morphMany(ScreenQuestion::class, 'model')->where('group', $group);
         return $rel;
     }
 
     public function allScreenQuestions()
     {
-        $rel = $this->morphMany(ScreenQuestion::class, 'model')->orderBy('group')->orderBy('order');
+        $rel = $this->morphMany(ScreenQuestion::class, 'model')->orderBy('group');
         return $rel;
     }
 
@@ -76,31 +76,5 @@ trait HasScreenQuestions
     public function validateScreenQuestionsRequest(Request $request)
     {
         return $this->validateScreenQuestions($request->get(config('screen-questions.form_name', 'custom_fields')));
-    }
-
-    /**
-     * Handle a request to order the fields.
-     *
-     * @param $fields
-     * @throws FieldDoesNotBelongToModelException
-     * @throws WrongNumberOfFieldsForOrderingException
-     */
-    public function order($fields, $group = null)
-    {
-        $fields = collect($fields);
-
-        if ($fields->count() !== $this->screenQuestions($group)->count()) {
-            throw new WrongNumberOfFieldsForOrderingException($fields->count(), $this->screenQuestions($group)->count());
-        }
-
-        $fields->each(function ($id, $index) use ($group){
-            $screenQuestion = $this->screenQuestions($group)->find($id);
-
-            if (!$screenQuestion) {
-                throw new FieldDoesNotBelongToModelException($id, $this);
-            }
-
-            $screenQuestion->update(['order' => $index + 1]);
-        });
     }
 }
