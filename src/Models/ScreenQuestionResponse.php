@@ -120,11 +120,11 @@ class ScreenQuestionResponse extends Model
     public function formatValue($value)
     {
         // Checkboxes send a default value of "on", so we need to booleanize the value
-        if ($this->field->type === 'checkbox') {
+        if ($this->questionable->type === 'checkbox') {
             $value = !!$value;
         }
 
-        if ($this->field->type === 'number') {
+        if ($this->questionable->type === 'number') {
             $value = (int) $value;
         }
 
@@ -146,7 +146,7 @@ class ScreenQuestionResponse extends Model
      */
     public function getValueFriendlyAttribute()
     {
-        if ($this->field->type === 'checkbox') {
+        if ($this->questionable->type === 'checkbox') {
             return $this->value ? 'Checked' : 'Unchecked';
         }
 
@@ -171,7 +171,7 @@ class ScreenQuestionResponse extends Model
      */
     protected function valueField()
     {
-        return self::VALUE_FIELDS[$this->field->type];
+        return self::VALUE_FIELDS[$this->questionable->type];
     }
 
     public static function formatScreenQuestionResponse(ResourceCollection $responses)
@@ -181,7 +181,7 @@ class ScreenQuestionResponse extends Model
             $values = $item->pluck('value');
 
             if ($values) {
-                if ($first_item->field->type == ScreenQuestion::TYPE_MULTISELECT) {
+                if ($first_item->questionable->type == ScreenQuestion::TYPE_MULTISELECT) {
                     $first_item->value = $values;
                 } else {
                     $first_item->value = $values[0];

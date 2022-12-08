@@ -212,7 +212,6 @@ class ScreenQuestion extends Model
         $responses = $this->responses;
         $values = [];
         foreach ($responses as $ele) {
-            $ele->field = $this;
             $values[] = $ele->value;
         }
 
