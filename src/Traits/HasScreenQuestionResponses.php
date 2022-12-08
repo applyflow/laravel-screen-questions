@@ -24,18 +24,28 @@ trait HasScreenQuestionResponses
      */
     public function saveScreenQuestions($fields)
     {
-        foreach ($fields as $key => $value) {
-            $screenQuestion = ScreenQuestion::find((int) $key);
+        foreach ($fields as $field) {
+            $screenQuestion = $field["question"];
 
             if (!$screenQuestion) {
                 continue;
             }
 
+            $job_uuid = $field["job_uuid"];
+
+            if (!$job_uuid) {
+                continue;
+            }
+
+            $value = $field["value"];
+
             if ($screenQuestion->type == ScreenQuestion::TYPE_MULTISELECT) {
                 ScreenQuestionResponse::where(
                     [
                         'model_id' => $this->id,
-                        'question_id' => $screenQuestion->id,
+                        'questionable_id' => $screenQuestion->id,
+                        'questionable_type' => $screenQuestion->getMorphClass(),
+                        'job_uuid' => $job_uuid,
                         'model_type' => $this->getMorphClass(),
                     ]
                 )->delete();
@@ -45,16 +55,20 @@ trait HasScreenQuestionResponses
                         ScreenQuestionResponse::create([
                             'value' => $ele,
                             'model_id' => $this->id,
-                            'question_id' => $screenQuestion->id,
-                            'model_type' => $this->getMorphClass(),
+                            'questionable_id' => $screenQuestion->id,
+                            'questionable_type' => $screenQuestion->getMorphClass(),
+                            'job_uuid' => $job_uuid,
+                            'model_type' => $this->getMorphClass(),                         
                         ]);
                     }
                 }
             } else {
                 ScreenQuestionResponse::updateOrCreate([
                     'model_id' => $this->id,
-                    'question_id' => $screenQuestion->id,
-                    'model_type' => $this->getMorphClass(),
+                    'questionable_id' => $screenQuestion->id,
+                    'questionable_type' => $screenQuestion->getMorphClass(),
+                    'job_uuid' => $job_uuid,
+                    'model_type' => $this->getMorphClass(),                
                 ], ['value' => $value,]);
             }
         }

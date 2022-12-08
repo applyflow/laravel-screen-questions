@@ -154,7 +154,7 @@ class ScreenQuestion extends Model
      */
     public function responses()
     {
-        return $this->hasMany(ScreenQuestionResponse::class, 'question_id');
+        return $this->morphMany(ScreenQuestionResponse::class, 'questionable');
     }
 
     /**

@@ -90,13 +90,12 @@ class ScreenQuestionResponse extends Model
     }
 
     /**
-     * Get the field belonging to the model.
+     * Get the questionable belonging to the model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function field()
+    public function questionable()
     {
-        return $this->belongsTo(ScreenQuestion::class, 'question_id');
+        return $this->morphTo();
     }
 
     /**
