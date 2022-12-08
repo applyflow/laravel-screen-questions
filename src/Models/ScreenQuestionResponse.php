@@ -176,7 +176,9 @@ class ScreenQuestionResponse extends Model
 
     public static function formatScreenQuestionResponse(ResourceCollection $responses)
     {
-        return $responses->groupBy('question_id')->map(function ($item, $key) {
+        return $responses->groupBy(function ($item, $key) {
+            return $item['questionable_type'] . '-' . $item['questionable_id'];
+        })->map(function ($item, $key) {
             $first_item = $item[0];
             $values = $item->pluck('value');
 
