@@ -23,6 +23,7 @@ class ScreenQuestionResponse extends Model
      */
     protected $fillable = [
         'value',
+        'order',
     ];
 
     protected $casts = [
