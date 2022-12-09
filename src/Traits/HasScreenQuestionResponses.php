@@ -38,6 +38,7 @@ trait HasScreenQuestionResponses
             }
 
             $value = $field["value"];
+            $order = $field["order"] ?? null;
 
             if ($screenQuestion->type == ScreenQuestion::TYPE_MULTISELECT) {
                 ScreenQuestionResponse::where(
@@ -58,7 +59,8 @@ trait HasScreenQuestionResponses
                             'questionable_id' => $screenQuestion->id,
                             'questionable_type' => $screenQuestion->getMorphClass(),
                             'job_uuid' => $job_uuid,
-                            'model_type' => $this->getMorphClass(),                         
+                            'model_type' => $this->getMorphClass(),
+                            'order' => $order,
                         ]);
                     }
                 }
@@ -68,8 +70,11 @@ trait HasScreenQuestionResponses
                     'questionable_id' => $screenQuestion->id,
                     'questionable_type' => $screenQuestion->getMorphClass(),
                     'job_uuid' => $job_uuid,
-                    'model_type' => $this->getMorphClass(),                
-                ], ['value' => $value,]);
+                    'model_type' => $this->getMorphClass(),
+                ], [
+                    'value' => $value,
+                    'order' => $order
+                ]);
             }
         }
     }
